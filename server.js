@@ -17,10 +17,31 @@ connectDB();
 const app = express();
 
 // Middleware
+// CORS configuration
+const allowedOrigins = [
+  process.env.FRONTEND_URL,           
+  'dir-smile-frontend.vercel.app', 
+  'http://localhost:5173',           
+  'http://localhost:3000',           
+].filter(Boolean); 
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.warn(`Origin ${origin} not allowed by CORS`);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
 }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
