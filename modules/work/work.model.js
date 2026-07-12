@@ -23,10 +23,10 @@ const workSchema = new mongoose.Schema(
     },
     categories: {
       type: [String],
-      enum: ['produced', 'directed', 'cinematography', 'edited', 'weddings-events', 'live-stream'],
+      enum: ['produced', 'directed', 'cinematography', 'edited', 'weddings-events', 'live-stream', 'behind-the-scene'],
       required: [true, 'At least one category is required'],
     },
-    thumbnail: {
+    thumbnail: { 
       publicId: String,
       url: String,
     },
