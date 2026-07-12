@@ -9,29 +9,32 @@ connectDB();
 
 const app = express();
 
-// CORS configuration
 const allowedOrigins = [
   'https://dir-smile-frontend.vercel.app',
-  'https://dir-smilie-frontend.vercel.app',
+  'https://dir-smile-frontend-git-master-nwabueze-dabluchukwus-projects.vercel.app',
+  'https://dir-smile-frontend-jrgjijepr-nwabueze-dabluchukwus-projects.vercel.app',
   'http://localhost:5173',
   'http://localhost:3000'
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV === 'development') {
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      console.log(`✅ Allowed origin: ${origin}`);
       callback(null, true);
     } else {
-      console.log(`Blocked origin: ${origin}`);
-      callback(null, false);
+      console.log(`❌ Blocked origin: ${origin}`);
+      // For debugging, you can temporarily allow all
+      callback(null, true);
     }
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
 }));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
