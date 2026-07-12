@@ -12,7 +12,7 @@ dotenv.config();
 connectDB();
 
 // Create initial admin
-createInitialAdmin();
+// createInitialAdmin();
 
 const app = express();
 
